@@ -17,7 +17,7 @@ export function CartPage() {
   const subtotal = useMemo(
     () =>
       items.reduce((s, it) => s + Math.round(it.price * 0.6) * it.quantity, 0),
-    [items]
+    []
   );
   const shippingLabel = "Free";
   const total = subtotal;

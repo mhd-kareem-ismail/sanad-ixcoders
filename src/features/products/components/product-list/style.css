@@ -9,7 +9,9 @@
   position: relative;
   height: 0; /* ما بدنا ياخد حيّز */
 }
-
+.swiper-costume {
+  overflow-x: scroll !important;
+}
 /* مجموعة أزرار التنقل أعلى يمين السلايدر */
 .product-navs {
   position: absolute;
