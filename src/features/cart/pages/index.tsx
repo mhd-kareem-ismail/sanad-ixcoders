@@ -109,6 +109,8 @@ export function CartPage() {
                 if (isLoggedIn) {
                   navigate(appRoutes.checkout);
                 } else {
+                  // Store intended destination for after signup
+                  sessionStorage.setItem('redirectAfterAuth', appRoutes.checkout);
                   toast.error("Please login to proceed to checkout");
                   navigate(appRoutes.auth.signUp);
                 }

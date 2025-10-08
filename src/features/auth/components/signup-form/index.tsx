@@ -36,7 +36,15 @@ const SignUpForm = () => {
       const { token, user } = await signUpMutation(data); // AuthResult
       userStorage.set(token);
       toast.success(`Account created. Welcome, ${user.name}`);
-      navigate(appRoutes.home);
+      
+      // Check if there's a redirect path stored
+      const redirectPath = sessionStorage.getItem('redirectAfterAuth');
+      if (redirectPath) {
+        sessionStorage.removeItem('redirectAfterAuth');
+        navigate(redirectPath);
+      } else {
+        navigate(appRoutes.home);
+      }
     } catch (error) {
       console.error("Error during sign up:", error);
       toast.error("Failed to sign up");
