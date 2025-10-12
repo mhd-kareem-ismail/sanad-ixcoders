@@ -1,12 +1,18 @@
-import { useParams } from "react-router";
+import { useParams, useNavigate } from "react-router";
 import { useEffect, useMemo, useState } from "react";
 import ProductsService from "../services/api";
 import type { Product } from "../services/api";
 import { ProductItem } from "../components/product-item";
+import { useCart } from "../../cart/services/cart-hooks";
+import { userStorage } from "../../auth/storage";
+import { appRoutes } from "../../../routes";
+import { toast } from "react-toastify";
 import s from "./ProductDetails.module.scss";
 
 export function ProductDetailsPage() {
   const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
+  const { addToCart, clearCartSilent } = useCart();
   const [product, setProduct] = useState<Product | null>(null);
   const [relatedProducts, setRelatedProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
@@ -197,7 +203,23 @@ export function ProductDetailsPage() {
               </button>
             </div>
 
-            <button className={`${s.btn} ${s.btnPrimary}`} type="button">
+            <button 
+              className={`${s.btn} ${s.btnPrimary}`} 
+              type="button"
+              onClick={() => {
+                if (!product) return;
+                
+                // Add product to cart with selected quantity
+                for (let i = 0; i < qty; i++) {
+                  addToCart({
+                    id: product.id,
+                    title: product.title,
+                    price: product.price,
+                    img: product.images?.[0] || ""
+                  });
+                }
+              }}
+            >
               Buy Now
             </button>
 
